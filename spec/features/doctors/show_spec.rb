@@ -28,7 +28,7 @@ RSpec.describe 'The Doctor Show Page', type: :feature do
   let!(:doctor_patient8) { DoctorPatient.create!(doctor: doctor4, patient: patient4) }
   let!(:doctor_patient9) { DoctorPatient.create!(doctor: doctor4, patient: patient5) }
   let!(:doctor_patient10) { DoctorPatient.create!(doctor: doctor4, patient: patient6) }
-  describe 'when I visit the show page' do
+  describe 'the show page basics' do
     it 'shows all of that doctors information' do
       visit doctor_path(doctor1)
       
@@ -57,9 +57,25 @@ RSpec.describe 'The Doctor Show Page', type: :feature do
       expect(page).to have_content(patient2.name, count: 1)
       expect(page).to have_content(patient3.name, count: 1)
       expect(page).to have_content(patient4.name, count: 1)
-      save_and_open_page
+
       expect(page).to_not have_content(patient5.name)
       expect(page).to_not have_content(patient6.name)
     end
   end
+  
+  describe 'the patient removal process' do
+    it 'tests that a patient has two doctors to begin with' do
+      visit doctor_path(doctor1)
+      expect(page).to have_content(patient1.name, count: 1)
+      visit doctor_path(doctor2)
+      expect(page).to have_content(patient1.name, count: 1)
+      # expect that there is a button (in a div that iterates)
+      # I click that button
+      # and I arrive back at the doctor show page
+      # Patient is no longer there
+      # then I go to to the patients OTHER doctor
+      # and patient is still there
+    end
+  end
+  
 end
