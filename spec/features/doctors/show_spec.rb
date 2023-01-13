@@ -32,30 +32,32 @@ RSpec.describe 'The Doctor Show Page', type: :feature do
     it 'shows all of that doctors information' do
       visit doctor_path(doctor1)
       
-      expect(page).to have_content(doctor1.name)
-      expect(page).to have_content(doctor1.specialty)
-      expect(page).to have_content(doctor1.university)
+      within("#doctor-info") do
+        expect(page).to have_content(doctor1.name, count: 1)
+        expect(page).to have_content(doctor1.specialty, count: 1)
+        expect(page).to have_content(doctor1.university, count: 1)
 
-      expect(page).to_not have_content(doctor2.name)
-      expect(page).to_not have_content(doctor3.name)
-      expect(page).to_not have_content(doctor3.name)
+        expect(page).to_not have_content(doctor2.name)
+        expect(page).to_not have_content(doctor3.name)
+        expect(page).to_not have_content(doctor3.name)
+      end
     end
 
-    xit 'shows the name of hospital where they work' do
+    it 'shows the name of hospital where they work' do
       visit doctor_path(doctor1)
       
-      expect(page).to have_content(hospital1.name)
+      expect(page).to have_content(hospital1.name, count: 1)
       expect(page).to_not have_content(hospital2.name)
     end
 
-    xit 'shows the names of all their patients' do
+    it 'shows the names of all their patients' do
       visit doctor_path(doctor1)
       
-      expect(page).to have_content(patient1.name)
-      expect(page).to have_content(patient2.name)
-      expect(page).to have_content(patient3.name)
-      expect(page).to have_content(patient4.name)
-
+      expect(page).to have_content(patient1.name, count: 1)
+      expect(page).to have_content(patient2.name, count: 1)
+      expect(page).to have_content(patient3.name, count: 1)
+      expect(page).to have_content(patient4.name, count: 1)
+      save_and_open_page
       expect(page).to_not have_content(patient5.name)
       expect(page).to_not have_content(patient6.name)
     end
