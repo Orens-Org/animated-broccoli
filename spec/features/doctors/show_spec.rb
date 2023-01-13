@@ -139,6 +139,10 @@ RSpec.describe 'The Doctor Show Page', type: :feature do
       within("#patient-info") do
         expect(page).to have_content(patient1.name)
       end
+
+      within("#patient-#{patient1.id}") do
+        expect(page).to have_content(patient1.name)
+      end
     end
   end
 end

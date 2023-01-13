@@ -28,7 +28,8 @@ RSpec.describe DoctorPatient, type: :model do
   let!(:doctor_patient9) { DoctorPatient.create!(doctor: doctor4, patient: patient5) }
   let!(:doctor_patient10) { DoctorPatient.create!(doctor: doctor4, patient: patient6) }
 
-  it {should belong_to :doctor}
-  it {should belong_to :patient}
-
+  describe 'relationships' do
+    it {should belong_to :doctor}
+    it {should belong_to :patient}
+  end
 end
