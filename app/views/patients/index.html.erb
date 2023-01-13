@@ -2,6 +2,6 @@
 
 <div id="patient-list">
   <% @adult_ordered_patients.each do |patient|  %>
-    <%= patient.name %><br>
+    <b>Name:</b> <%= patient.name %>, <b>Age:</b> <%= patient.age %><br>
   <% end %>
 </div>
