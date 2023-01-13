@@ -49,9 +49,9 @@ RSpec.describe 'The Patient Index Page', type: :feature do
       visit patients_path
 
       within("#patient-list") do
-        expect(patient3.name).to appear_before(patient1.name)
-        expect(patient3.name).to appear_before(patient5.name)
-        expect(patient5.name).to appear_before(patient6.name)
+        expect(patient3.name).to appear_before(patient6.name)
+        expect(patient6.name).to appear_before(patient1.name)
+        expect(patient1.name).to appear_before(patient5.name)
       end
     end
   end
