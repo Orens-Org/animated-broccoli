@@ -46,20 +46,24 @@ RSpec.describe 'The Doctor Show Page', type: :feature do
     it 'shows the name of hospital where they work' do
       visit doctor_path(doctor1)
       
-      expect(page).to have_content(hospital1.name, count: 1)
-      expect(page).to_not have_content(hospital2.name)
+      within("#hospital-info") do
+        expect(page).to have_content(hospital1.name, count: 1)
+        expect(page).to_not have_content(hospital2.name)
+      end
     end
 
     it 'shows the names of all their patients' do
       visit doctor_path(doctor1)
       
-      expect(page).to have_content(patient1.name, count: 1)
-      expect(page).to have_content(patient2.name, count: 1)
-      expect(page).to have_content(patient3.name, count: 1)
-      expect(page).to have_content(patient4.name, count: 1)
+      within("#patient-info") do
+        expect(page).to have_content(patient1.name, count: 1)
+        expect(page).to have_content(patient2.name, count: 1)
+        expect(page).to have_content(patient3.name, count: 1)
+        expect(page).to have_content(patient4.name, count: 1)
 
-      expect(page).to_not have_content(patient5.name)
-      expect(page).to_not have_content(patient6.name)
+        expect(page).to_not have_content(patient5.name)
+        expect(page).to_not have_content(patient6.name)
+      end
     end
   end
   
@@ -69,13 +73,52 @@ RSpec.describe 'The Doctor Show Page', type: :feature do
       expect(page).to have_content(patient1.name, count: 1)
       visit doctor_path(doctor2)
       expect(page).to have_content(patient1.name, count: 1)
-      # expect that there is a button (in a div that iterates)
+    end
+
+    it 'shows a button next to every patient' do
+      visit doctor_path(doctor1)
+      
+      within("#patient-#{patient1.id}") do
+        expect(page).to have_button("Remove Patient")
+      end
+
+      within("#patient-#{patient2.id}") do
+        expect(page).to have_button("Remove Patient")
+      end
+
+      within("#patient-#{patient3.id}") do
+        expect(page).to have_button("Remove Patient")
+      end
+
+      within("#patient-#{patient4.id}") do
+        expect(page).to have_button("Remove Patient")
+      end
+    end
+
+    it 'allows me to click a button to remove a patient' do
+      visit doctor_path(doctor1)
+      
+      within("#patient-info") do
+        expect(page).to have_content(patient1.name)
+      end
+
+      within("#patient-#{patient1.id}") do
+        expect(page).to have_content(patient1.name)
+        expect(page).to have_button("Remove Patient")
+        click_button("Remove Patient")
+      end
+
+      expect(current_path).to eq(doctor_path(doctor1))
+
+      within("#patient-info") do
+        expect(page).to_not have_content(patient1.name)
+      end
+    end
+  end
+     
       # I click that button
       # and I arrive back at the doctor show page
       # Patient is no longer there
       # then I go to to the patients OTHER doctor
       # and patient is still there
-    end
-  end
-  
 end
